@@ -33,7 +33,7 @@
         <!--滚动策略  默认每天-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-            <fileNamePattern>D://demo//log//info.%d.log</fileNamePattern>
+            <fileNamePattern>G://wx_sell//log//info.%d.log</fileNamePattern>
         </rollingPolicy>
     </appender>
 
@@ -50,7 +50,7 @@
         <!--滚动策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--路径-->
-            <fileNamePattern>D://demo//log//error.%d.log</fileNamePattern>
+            <fileNamePattern>G://wx_sell//log//error.%d.log</fileNamePattern>
         </rollingPolicy>
     </appender>
     <!--表示根目录 意思所有日志都满足-->
