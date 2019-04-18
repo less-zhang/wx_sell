@@ -9,11 +9,14 @@ import com.xmcc.entity.ProductInfo;
 import com.xmcc.repository.ProductCategoryRepository;
 import com.xmcc.repository.ProductInfoRepository;
 import com.xmcc.service.ProductInfoService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,5 +57,27 @@ public class ProductInfoServiceImpl implements ProductInfoService {
         }).collect(Collectors.toList());
 
         return ResultResponse.succes(productCategoryDtos);
+    }
+
+    @Override
+    public ResultResponse<ProductInfo> queryById(String infoId) {
+        if (StringUtils.isBlank(infoId)){
+            return ResultResponse.fail(ResultEnums.PARAM_ERROR.getMsg());
+        }
+        Optional<ProductInfo> byId = productInfoRepository.findById(infoId);
+        if (!byId.isPresent()){
+            return ResultResponse.fail(ResultEnums.NOT_EXITS.getMsg());
+        }
+        ProductInfo productInfo = byId.get();
+        if (productInfo.getProductStatus() == ResultEnums.PRODUCT_DOWN.getCode()){
+            return ResultResponse.fail(ResultEnums.PRODUCT_DOWN.getMsg());
+        }
+        return ResultResponse.succes(productInfo);
+    }
+
+    @Override
+    @Transactional
+    public void updateProduct(ProductInfo productInfo) {
+        productInfoRepository.save(productInfo);
     }
 }
